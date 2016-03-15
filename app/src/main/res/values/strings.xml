@@ -4,5 +4,19 @@
     <string name="app_name">CardView App</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="circlePinDescription">Pin Circle</string>
+    <string name="horizontalLineDescription">Horizontal Line Separator</string>
+
+    <string name="cardinformation_textUserName">Venenatis blandit.</string>
+    <string name="cardinformation_textTime">16:01</string>
+    <string name="cardinformation_textInfo">Donec molestie, odio at egestas porttitor, velit ipsum tristique urna, vel dignissim diam arcu dignissim urna.</string>
+
+    <string name="cardtwooptions_textUserName">Venenatis blandit.</string>
+    <string name="cardtwooptions_textTime">16:01</string>
+    <string name="cardtwooptions_textInfo">Donec molestie, odio at egestas porttitor, velit ipsum tristique urna, vel dignissim diam arcu dignissim urna.</string>
+    <string name="cardtwooptions_textOption1">Option 1</string>
+    <string name="cardtwooptions_textOption2">Option 2</string>
+    <string name="smalClockInfoDescription">Small clock info</string>
+
 
 </resources>

@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,9 +21,10 @@ public class MainActivity extends ActionBarActivity {
     private static RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
-    private static ArrayList<PersonData> addedPeople;
+
+    private static ArrayList<CardData> cardList;
+
     static View.OnClickListener myOnClickListener;
-    private static ArrayList<PersonData> removedPeople;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +40,9 @@ public class MainActivity extends ActionBarActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        addedPeople = new ArrayList<PersonData>();
-        for (int i = 0; i < MyData.nameArray.length; i++) {
-            addedPeople.add(new PersonData(
-                    MyData.nameArray[i],
-                    MyData.emailArray[i],
-                    MyData.drawableArray[i],
-                    MyData.id_[i]
-            ));
-        }
+        cardList = new ArrayList<CardData>();
 
-        removedPeople = new ArrayList<PersonData>();
-
-        adapter = new MyAdapter(addedPeople);
+        adapter = new MyCustomAdapter(this, cardList);
         recyclerView.setAdapter(adapter);
     }
 
@@ -73,19 +62,8 @@ public class MainActivity extends ActionBarActivity {
 
         private void removeItem(View v) {
             int selectedItemPosition = recyclerView.getChildPosition(v);
-            /*RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForPosition(selectedItemPosition);
-            TextView textViewName
-                    = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
-            String selectedName = (String) textViewName.getText();
-            int selectedItemId = -1;
-            for (int i = 0; i < MyData.nameArray.length; i++) {
-                if (selectedName.equals(MyData.nameArray[i])) {
-                    selectedItemId = MyData.id_[i];
-                }
-            }*/
-            removedPeople.add(addedPeople.get(selectedItemPosition));
-            addedPeople.remove(selectedItemPosition);
+
+            cardList.remove(selectedItemPosition);
             adapter.notifyItemRemoved(selectedItemPosition);
         }
     }
@@ -101,20 +79,42 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_add_item) {
-//            check if any items to add
-            if (removedPeople.size() != 0) {
-                addRemovedItemToList();
-            } else {
-                Toast.makeText(this, "Nothing to add", Toast.LENGTH_SHORT).show();
-            }
+            System.out.println("[MainActivity::onOptionsItemSelected()");
+            generateNewCardToList();
+            //Toast.makeText(this, "Nothing to add", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
 
-    private void addRemovedItemToList() {
-        addedPeople.add(removedPeople.get(0));
-        //adapter.notifyItemInserted(recyclerView.getChildCount());
+    private void generateNewCardToList() {
+        cardList.add(0, CardDataGenerator.generateNewRandomCard());
+        adapter.notifyItemInserted(0);
         adapter.notifyDataSetChanged();
-        removedPeople.remove(0);
+        //printAddedCards();
+    }
+
+    private void printAddedCards() {
+        CardData card;
+        for(int cont=0; cont< cardList.size(); cont++) {
+            card = cardList.get(cont);
+
+            System.out.println("######################################");
+            System.out.println("[MainActivity::printAddedCards()] cont:" + cont);
+            switch(card.getCardTypeID().ordinal()) {
+                case 1:
+                    System.out.println("[MainActivity::printAddedCards()] getCardTypeID: 1");
+                    System.out.println("[MainActivity::printAddedCards()] card.getUserName:" + card.getUserName());
+                    System.out.println("[MainActivity::printAddedCards()] card.getUserName:" + card.getPostInfo());
+                    break;
+                case 2:
+                    System.out.println("[MainActivity::printAddedCards()] getCardTypeID: 2");
+                    System.out.println("[MainActivity::printAddedCards()] card.getUserName:" + card.getUserName());
+                    System.out.println("[MainActivity::printAddedCards()] card.getUserName:" + card.getPostInfo());
+                    break;
+                case 3:
+                    System.out.println("[MainActivity::printAddedCards()] getCardTypeID: 3");
+                    break;
+            }
+        }
     }
 }
